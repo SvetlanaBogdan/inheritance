@@ -79,4 +79,80 @@ public class TodosTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
+    // Тест проверяет, что метод search возвращает несколько задач,
+// если по запросу подходит более одной задачи.
+    @Test
+    public void shouldSearchSeveralTasks() {
+
+        // Создаём задачи
+        SimpleTask task1 = new SimpleTask(1, "Купить молоко");
+        SimpleTask task2 = new SimpleTask(2, "Купить хлеб");
+        SimpleTask task3 = new SimpleTask(3, "Позвонить маме");
+
+        // Создаём объект Todos и добавляем задачи
+        Todos todos = new Todos();
+        todos.add(task1);
+        todos.add(task2);
+        todos.add(task3);
+
+        // Ожидаем, что по слову "Купить" найдутся две задачи
+        Task[] expected = {task1, task2};
+
+        // Выполняем поиск
+        Task[] actual = todos.search("Купить");
+
+        // Сравниваем ожидаемый и фактический результат
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    // Тест проверяет, что метод search возвращает массив из одной задачи,
+// если по запросу подходит только одна задача.
+    @Test
+    public void shouldSearchOneTask() {
+
+        // Создаём задачи
+        SimpleTask task1 = new SimpleTask(1, "Купить молоко");
+        SimpleTask task2 = new SimpleTask(2, "Позвонить маме");
+
+        // Добавляем задачи в список
+        Todos todos = new Todos();
+        todos.add(task1);
+        todos.add(task2);
+
+        // Ожидаем, что по слову "маме" найдётся только одна задача
+        Task[] expected = {task2};
+
+        // Выполняем поиск
+        Task[] actual = todos.search("маме");
+
+        // Проверяем корректность результата
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    // Тест проверяет, что метод search возвращает пустой массив,
+// если ни одна задача не соответствует поисковому запросу.
+    @Test
+    public void shouldSearchNoTasks() {
+
+        // Создаём задачи
+        SimpleTask task1 = new SimpleTask(1, "Купить молоко");
+        SimpleTask task2 = new SimpleTask(2, "Позвонить маме");
+
+        // Добавляем задачи в список
+        Todos todos = new Todos();
+        todos.add(task1);
+        todos.add(task2);
+
+        // Ожидаем пустой массив, так как слово "Пельмешка"
+        // не встречается ни в одной задаче
+        Task[] expected = {};
+
+        // Выполняем поиск
+        Task[] actual = todos.search("Пельмешка");
+
+        // Проверяем, что метод вернул пустой массив
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+
 }
